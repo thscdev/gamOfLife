@@ -6,12 +6,23 @@ import com.conplement.gameOfLife.Generation;
 public class Application {
 
     public static void main(String[] args) throws InterruptedException {
-        GameOfLife game = new GameOfLife(new Generation(new boolean[][]{
+
+        Generation firstGen = new Generation(new boolean[][]{
                 {true, true, true, true},
                 {true, true, true, true},
                 {true, true, true, true},
                 {true, true, true, true},
-        }),1);
+        });
+
+        Generation blinker = new Generation(new boolean[][]{
+                {false, false, false, false},
+                {false, true, false, false},
+                {false, true, false, false},
+                {false, true, false, false},
+        });
+
+
+        GameOfLife game = new GameOfLife(blinker,1);
 
         game.start();
     }

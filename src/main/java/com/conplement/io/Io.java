@@ -9,7 +9,7 @@ public class Io {
 
         for(int x = 0; x < board.length; x++) {
             for(int y = 0; y < board.length; y++) {
-                System.out.print(board[x][y] == false ? "#" : "+");
+                System.out.print(board[x][y] == false ? "." : "#");
             }
             System.out.println();
         }

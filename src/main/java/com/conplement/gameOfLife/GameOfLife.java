@@ -10,9 +10,12 @@ public class GameOfLife {
     private Generation currentGeneration;
     private int generationCounter = 0;
 
+    final String ANSI_CLS = "\u001b[2J";
+    final String ANSI_HOME = "\u001b[H";
+
     public GameOfLife(Generation INITIAL_GENERATION, int TICK_RATE) {
         this.currentGeneration = INITIAL_GENERATION;
-        this.TICK_RATE = TICK_RATE * 1000; // Wa
+        this.TICK_RATE = TICK_RATE * 100; // Wa
 
         this.DIMENSION_X = currentGeneration.getGenerationState().length;
         this.DIMENSION_Y = currentGeneration.getGenerationState()[0].length;
@@ -22,13 +25,15 @@ public class GameOfLife {
         Io io = new Io();
 
 
-        while(generationCounter<5) {
+        while(generationCounter<100) {
             System.out.println("Generation: " + generationCounter);
             io.printGeneration(currentGeneration);
             currentGeneration = currentGeneration.calcNextGeneration();
             generationCounter++;
             Thread.sleep(TICK_RATE);
-            System.out.flush(); // it is not clearing the above statements
+
+            System.out.print("\033[H\033[2J");
+            System.out.flush();
         }
 
         System.out.println("Das Programm wurde Beendet");

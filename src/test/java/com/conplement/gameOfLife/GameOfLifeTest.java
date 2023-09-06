@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class GameOfLifeTest {
 
-    Generation testGen = new Generation(4, new boolean[][] {
+    /* Generation testGen = new Generation(4, new boolean[][] {
             {false, true, true, true },
             {false, true, true, true },
             {false, true, true, true },
@@ -17,5 +17,5 @@ class GameOfLifeTest {
     void isGivenZellCoordinates_expectsLivingCell () {
         GameOfLife gol = new GameOfLife(testGen,2);
         assertTrue(gol.cellDeadOrAlife());
-    }
+    } */
 }

@@ -4,8 +4,8 @@ import com.conplement.gameOfLife.Generation;
 
 public class Io {
 
-    public void printGeneration(Generation gen) {
-        boolean[][] board = gen.getGenerationState();
+    public void printBooleanArray(boolean[][] board) {
+        //boolean[][] board = gen.getGenerationState();
 
         for(int x = 0; x < board.length; x++) {
             for(int y = 0; y < board.length; y++) {

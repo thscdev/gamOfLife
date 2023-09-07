@@ -4,40 +4,42 @@ import com.conplement.io.Io;
 
 public class GameOfLife {
 
-    private final int TICK_RATE;
-    private final int DIMENSION_X;
-    private final int DIMENSION_Y;
+    private final int tickRate;
+    private final int dimensionX;
+    private final int dimensionY;
     private Generation currentGeneration;
     private int generationCounter = 0;
 
-    final String ANSI_CLS = "\u001b[2J";
-    final String ANSI_HOME = "\u001b[H";
+    public GameOfLife(boolean[][] INITIAL_GENERATION, int tickRate) {
+        this.currentGeneration = new Generation(INITIAL_GENERATION);
+        this.tickRate = 1000/ tickRate ;
 
-    public GameOfLife(Generation INITIAL_GENERATION, int TICK_RATE) {
-        this.currentGeneration = INITIAL_GENERATION;
-        this.TICK_RATE = TICK_RATE * 100; // Wa
-
-        this.DIMENSION_X = currentGeneration.getGenerationState().length;
-        this.DIMENSION_Y = currentGeneration.getGenerationState()[0].length;
+        this.dimensionX = currentGeneration.getGenerationState().length;
+        this.dimensionY = currentGeneration.getGenerationState()[0].length;
     }
 
-    public void start() throws InterruptedException {
-        Io io = new Io();
+    //public static GameOfLife randomGOLDimension(int dimension) {
 
+    //}
 
-        while(generationCounter<100) {
-            System.out.println("Generation: " + generationCounter);
-            io.printGeneration(currentGeneration);
-            currentGeneration = currentGeneration.calcNextGeneration();
-            generationCounter++;
-            Thread.sleep(TICK_RATE);
-
-            System.out.print("\033[H\033[2J");
-            System.out.flush();
-        }
-
-        System.out.println("Das Programm wurde Beendet");
+    public int numberOfGeneration(){
+        return generationCounter;
     }
 
+    public Generation getCurrentGeneration(){
+        return currentGeneration;
+    }
 
+    public void calcNextGeneration(){
+        currentGeneration = currentGeneration.calcNextGeneration();
+        generationCounter++;
+    }
+
+    public int getTickrate () {
+        return tickRate;
+    }
+
+    public boolean[][] getCurrentGenAsBooleanArray(){
+        return currentGeneration.getGenerationState();
+    }
 }

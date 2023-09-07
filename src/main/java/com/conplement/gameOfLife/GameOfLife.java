@@ -10,12 +10,24 @@ public class GameOfLife {
     private Generation currentGeneration;
     private int generationCounter = 0;
 
-    public GameOfLife(boolean[][] INITIAL_GENERATION, int tickRate) {
+    Board board;
+
+    public GameOfLife(){}
+
+    private GameOfLife(int x, int y){}
+
+    public GameOfLife(boolean[][] INITIAL_GENERATION, int tickRate) {   //old constructor
         this.currentGeneration = new Generation(INITIAL_GENERATION);
         this.tickRate = 1000/ tickRate ;
 
         this.dimensionX = currentGeneration.getGenerationState().length;
         this.dimensionY = currentGeneration.getGenerationState()[0].length;
+    }
+
+    public static GameOfLife randomGOLdimension(int x, int y){
+        var game = new GameOfLife();
+
+        return null;
     }
 
     //public static GameOfLife randomGOLDimension(int dimension) {

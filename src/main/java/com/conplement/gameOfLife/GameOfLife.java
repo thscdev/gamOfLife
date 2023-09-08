@@ -5,31 +5,20 @@ import com.conplement.io.Io;
 public class GameOfLife {
 
     private final int tickRate;
-    // private final int dimensionX;
-    // private final int dimensionY;
     private Board currentBoard;
     private int generationCounter = 0;
+    private Renderer renderer;
 
-    public GameOfLife(boolean[][] INITIAL_GENERATION, int tickRate) {   //old constructor
+    public GameOfLife(boolean[][] INITIAL_GENERATION, int tickRate, Renderer renderer) {
         this.currentBoard = Board.newBoardForBooleanPattern(INITIAL_GENERATION);
         this.tickRate = 1000/ tickRate ;
+        this.renderer = renderer;
     }
 
-    public int numberOfGeneration(){
-        return generationCounter;
-    }
-
-
-    public void calcNextGeneration(){
-        currentBoard = currentBoard.calcNextBoard();
-        generationCounter++;
-    }
-
-    public int getTickrate () {
-        return tickRate;
-    }
-
-    public boolean[][] getCurrentGenAsBooleanArray(){
-        return currentBoard.getBooleanCellStatusArray();
+    public void start(){
+        while(true){
+            renderer.render(currentBoard);
+            currentBoard= currentBoard.calcNextBoard();
+        }
     }
 }

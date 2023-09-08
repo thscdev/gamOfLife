@@ -3,6 +3,8 @@ package com.conplement;
 
 import com.conplement.gameOfLife.GameOfLife;
 import com.conplement.io.Io;
+import com.conplement.renderer.ClassicConsoleRender;
+import com.conplement.renderer.EmojiConsoleRender;
 
 public class Application {
 
@@ -39,34 +41,10 @@ public class Application {
 
 
 
-        var gameClock = new GameOfLife(clock, 4);
-        var gameBlinker = new GameOfLife(blinker, 4);
-        var gameToad = new GameOfLife(toad, 4);
+        var gameClock = new GameOfLife(clock, 4, new EmojiConsoleRender());
+        gameClock.start();
+        //var gameBlinker = new GameOfLife(blinker, 4);
+        //var gameToad = new GameOfLife(toad, 4);
 
-        while (true) {
-            System.out.println("Generation Clock: " + gameClock.numberOfGeneration());
-            io.printBooleanArray(gameClock.getCurrentGenAsBooleanArray());
-            gameClock.calcNextGeneration();
-
-            System.out.println("");
-
-            System.out.println("Generation Blinker: " + gameBlinker.numberOfGeneration());
-            io.printBooleanArray(gameBlinker.getCurrentGenAsBooleanArray());
-            gameBlinker.calcNextGeneration();
-
-            System.out.println("");
-
-            System.out.println("Generation Toad: " + gameToad.numberOfGeneration());
-            io.printBooleanArray(gameToad.getCurrentGenAsBooleanArray());
-            gameToad.calcNextGeneration();
-
-            Thread.sleep(gameClock.getTickrate());
-            System.out.print("\033[H\033[2J");
-            System.out.flush();
-        }
-
-        //gameClock.start();
-
-        // , Test für Modul schreiben -> refactorn
     }
 }

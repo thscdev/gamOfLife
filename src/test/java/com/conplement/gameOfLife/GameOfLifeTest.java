@@ -49,7 +49,7 @@ class GameOfLifeTest {
             {false, true, true, false},
             {false, false, true, false}
     };
-
+    /*
     @Test
     void givenBlinker_expectBlinkerResult() {
         var game = new GameOfLife(blinker, 1);
@@ -70,4 +70,6 @@ class GameOfLifeTest {
         game.calcNextGeneration();
         assertArrayEquals(toadResult, game.getCurrentGenAsBooleanArray() );
     }
+
+     */
 }

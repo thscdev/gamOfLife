@@ -9,8 +9,8 @@ public class GameOfLife {
     private int generationCounter = 0;
     private Renderer renderer;
 
-    public GameOfLife(boolean[][] INITIAL_GENERATION, int tickRate, Renderer renderer) {
-        this.currentBoard = Board.newBoardForBooleanPattern(INITIAL_GENERATION);
+    public GameOfLife(boolean[][] initialBoard, int tickRate, Renderer renderer) {
+        this.currentBoard = Board.newBoardForBooleanPattern(initialBoard);
         this.tickRate = 1000/ tickRate ;
         this.renderer = renderer;
     }
@@ -19,6 +19,7 @@ public class GameOfLife {
         while(true){
             renderer.render(currentBoard, generationCounter);
             currentBoard= currentBoard.calcNextBoard();
+            generationCounter++;
             Thread.sleep(tickRate);
         }
     }

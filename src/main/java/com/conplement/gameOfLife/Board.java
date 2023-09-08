@@ -16,8 +16,8 @@ public class Board {
     private Board(boolean[][] pattern) {        //constructor for newBoardForBooleanPattern
         this.board = new Cell[pattern.length][pattern[0].length];
 
-        for (int x = 0; x < board.length; x++) {
-            for (int y = 0; y < board.length; y++) {
+        for (int x = 0; x < pattern.length; x++) {
+            for (int y = 0; y < pattern[0].length; y++) {
                 board[x][y] = pattern[x][y] ? Cell.newLivingCell(new Neighborhood(x,y,this)) : Cell.newDeadCell(new Neighborhood(x,y,this));
             }
         }
@@ -48,11 +48,11 @@ public class Board {
     }
 
     public Board calcNextBoard(){
-        Cell[][] newBoard = new Cell[board.length][board[0].length];
+        boolean[][] newBoard = new boolean[board.length][board[0].length];
 
         for(int x = 0; x < board.length; x++){
             for(int y = 0; y < board[0].length; y++) {
-                newBoard[x][y] = board[x][y].calculateNextCellStatus();
+                newBoard[x][y] = board[x][y].calculateNextCellStatus().isAlive();
             }
         }
         return new Board(newBoard) ;

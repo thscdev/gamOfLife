@@ -1,10 +1,13 @@
 package com.conplement.gameOfLife;
 
+import com.conplement.renderer.ClassicConsoleRender;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class GameOfLifeTest {
+
+
 
     private final boolean[][] blinker = new boolean[][]{
             {false, false, false, false, false},
@@ -49,27 +52,35 @@ class GameOfLifeTest {
             {false, true, true, false},
             {false, false, true, false}
     };
-    /*
+
     @Test
     void givenBlinker_expectBlinkerResult() {
-        var game = new GameOfLife(blinker, 1);
-        game.calcNextGeneration();
-        assertArrayEquals(blinkerResult, game.getCurrentGenAsBooleanArray() );
+
+        Board board = Board.newBoardForBooleanPattern(blinker);
+
+        Board nextBoard = board.calcNextBoard();
+
+        assertArrayEquals(blinkerResult, nextBoard.getBooleanCellStatusArray());
     }
 
     @Test
     void givenClock_expectClockResult() {
-        var game = new GameOfLife(clock, 1);
-        game.calcNextGeneration();
-        assertArrayEquals(clockResult, game.getCurrentGenAsBooleanArray() );
+        Board board = Board.newBoardForBooleanPattern(clock);
+
+        Board nextBoard = board.calcNextBoard();
+
+        assertArrayEquals(clockResult, nextBoard.getBooleanCellStatusArray());
     }
 
     @Test
-    void givenToad_expectToadResult() {
-        var game = new GameOfLife(toad, 1);
-        game.calcNextGeneration();
-        assertArrayEquals(toadResult, game.getCurrentGenAsBooleanArray() );
+    void givenToad_expectToadResultAfter3Generations() {
+        Board board = Board.newBoardForBooleanPattern(toad);
+
+        Board nextBoard = board.calcNextBoard();
+        nextBoard = nextBoard.calcNextBoard();
+        nextBoard = board.calcNextBoard();
+
+        assertArrayEquals(toadResult, nextBoard.getBooleanCellStatusArray());
     }
 
-     */
 }

@@ -41,7 +41,7 @@ public class Application {
 
 
 
-        var gameClock = new GameOfLife(clock, 4, new EmojiConsoleRender());
+        var gameClock = new GameOfLife(clock, 2, new ClassicConsoleRender());
         gameClock.start();
         //var gameBlinker = new GameOfLife(blinker, 4);
         //var gameToad = new GameOfLife(toad, 4);

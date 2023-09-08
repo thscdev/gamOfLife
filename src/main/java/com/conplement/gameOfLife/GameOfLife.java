@@ -15,10 +15,11 @@ public class GameOfLife {
         this.renderer = renderer;
     }
 
-    public void start(){
+    public void start() throws InterruptedException {
         while(true){
-            renderer.render(currentBoard);
+            renderer.render(currentBoard, generationCounter);
             currentBoard= currentBoard.calcNextBoard();
+            Thread.sleep(tickRate);
         }
     }
 }

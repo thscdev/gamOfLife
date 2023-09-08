@@ -5,23 +5,38 @@ public class Cell {
     private boolean isAlive;
     private Neighborhood hood;
 
-    private Cell(boolean isAlive){
+    private Cell(boolean isAlive, Neighborhood hood){
         this.isAlive = isAlive;
+        this.hood = hood;
     }
 
-    public Cell newLivingCell() {
-        return new Cell(true);
+    public static Cell newLivingCell(Neighborhood neighborhood) {
+        return new Cell(true, neighborhood);
     }
 
-    public Cell newDeadCell() {
-        return new Cell(false);
+    public static Cell newDeadCell(Neighborhood neighborhood) {
+        return new Cell(false, neighborhood);
     }
 
-    public Cell newRandomCell(){
-        return new Cell(Math.random() > 0.5 ? true : false);
+    public static Cell newRandomCell(Neighborhood neighborhood){
+        return new Cell(Math.random() > 0.5 ? true : false, neighborhood);
     }
 
     public boolean isAlive() {
         return isAlive;
+    }
+
+    public Cell calculateNextCellStatus (){
+        int aliveNeighbors = hood.countAliveNeighbors();
+
+        if (!isAlive && aliveNeighbors == 3) {
+            return Cell.newLivingCell(hood);
+        }
+
+        if (isAlive && (aliveNeighbors < 2 || aliveNeighbors > 3)) {
+            return newDeadCell(hood); // was ist der Unterschied zu oben?
+        }
+
+        return this;    //Gute idee? Oder besser neue Celle mit diesem Status?
     }
 }

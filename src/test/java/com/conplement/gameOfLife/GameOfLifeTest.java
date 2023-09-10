@@ -3,6 +3,8 @@ package com.conplement.gameOfLife;
 import com.conplement.renderer.ClassicConsoleRender;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class GameOfLifeTest {
@@ -81,6 +83,15 @@ class GameOfLifeTest {
         nextBoard = board.calcNextBoard();
 
         assertArrayEquals(toadResult, nextBoard.getBooleanCellStatusArray());
+    }
+
+    @Test
+    void givenBlinker_ExpectFalseAfterOneRun() {
+        Board board = Board.newBoardForBooleanPattern(blinker);
+
+        board = board.calcNextBoard();
+
+        assertFalse(Arrays.equals(blinker, board.getBooleanCellStatusArray()));
     }
 
 }

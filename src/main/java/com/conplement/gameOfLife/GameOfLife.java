@@ -15,6 +15,10 @@ public class GameOfLife {
         this.renderer = renderer;
     }
 
+    public static GameOfLife randomGameOfLife(int tickRate, Renderer renderer){
+        return new GameOfLife(Board.newSizedBoardWithRandomCells(20,20).getBooleanCellStatusArray(),tickRate, renderer);
+    }
+
     public void start() throws InterruptedException {
         while(true){
             renderer.render(currentBoard, generationCounter);

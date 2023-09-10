@@ -2,71 +2,49 @@ package com.conplement;
 
 
 import com.conplement.gameOfLife.GameOfLife;
+import com.conplement.gameOfLife.Renderer;
 import com.conplement.io.Io;
 
 public class Application {
 
     public static void main(String[] args) throws InterruptedException {
 
-        var blinker = new boolean[][]{
-                {false, false, false, false, false},
-                {false, false, true, false, false},
-                {false, false, true, false, false},
-                {false, false, true, false, false},
-                {false, false, false, false, false}
-        };
-
-        final boolean[][] clock = new boolean[][] {
-                {false, false, false, false, false, false},
-                {false, false, false, true, false, false},
-                {false, true, true, false, false, false},
-                {false, false, false, true, true, false},
-                {false, false, true, false, false, false},
-                {false, false, false, false, false, false}
-        };
-
-        final boolean[][] toad = new boolean[][] {
-                {false, false, false, false, false, false},
-                {false, false, true, true, false, false},
-                {false, true, false, false, false, false},
-                {false, false, false, false, true, false},
-                {false, false, true, true, false, false},
-                {false, false, false, false, false, false}
-        };
-
+        String path;
+        GameOfLife game;
+        Renderer choosenRenderer;
+        int tickRate;
         var io = new Io();
 
+        while(true){
+            String choosenPattern = io.printMenuChoosePattern();
 
+            if(choosenPattern == "error"){
+                System.out.println("Bitte treffe eine korrekte Wahl");
+                continue;
+            }
 
-
-        var gameClock = new GameOfLife(clock, 4);
-        var gameBlinker = new GameOfLife(blinker, 4);
-        var gameToad = new GameOfLife(toad, 4);
-
-        while (true) {
-            System.out.println("Generation Clock: " + gameClock.numberOfGeneration());
-            io.printBooleanArray(gameClock.getCurrentGenAsBooleanArray());
-            gameClock.calcNextGeneration();
-
-            System.out.println("");
-
-            System.out.println("Generation Blinker: " + gameBlinker.numberOfGeneration());
-            io.printBooleanArray(gameBlinker.getCurrentGenAsBooleanArray());
-            gameBlinker.calcNextGeneration();
-
-            System.out.println("");
-
-            System.out.println("Generation Toad: " + gameToad.numberOfGeneration());
-            io.printBooleanArray(gameToad.getCurrentGenAsBooleanArray());
-            gameToad.calcNextGeneration();
-
-            Thread.sleep(gameClock.getTickrate());
-            System.out.print("\033[H\033[2J");
-            System.out.flush();
+            path = choosenPattern;
+            break;
         }
 
-        //gameClock.start();
+        while(true){
+            tickRate = io.printMenuChooseTickRate();
+            if(tickRate > 0) {
+                break;
+            }
+            System.out.println("Bitte gib eine ganze Zahl größer als 0 ein");
+        }
 
-        // , Test für Modul schreiben -> refactorn
+        choosenRenderer = io.printMenuChooseRenderer();
+
+        if(path == "random"){
+            game = GameOfLife.randomGameOfLife(tickRate, choosenRenderer);
+        } else {
+            boolean[][] parsedTextFile = io.readTextFilePattern(path);
+            game = new GameOfLife(parsedTextFile, tickRate, choosenRenderer);
+        }
+
+        game.start();
+
     }
 }

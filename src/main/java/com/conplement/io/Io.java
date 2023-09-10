@@ -1,7 +1,5 @@
 package com.conplement.io;
 
-import com.conplement.gameOfLife.Generation;
-
 public class Io {
 
     public void printBooleanArray(boolean[][] board) {

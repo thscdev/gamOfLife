@@ -1,7 +1,6 @@
 package com.conplement;
 
 
-import com.conplement.gameOfLife.Generation;
 import com.conplement.gameOfLife.GameOfLife;
 import com.conplement.io.Io;
 

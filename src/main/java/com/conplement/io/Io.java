@@ -41,8 +41,6 @@ public class Io {
                 parsedTextFile[x][y] = splittetFile[x].charAt(y) == '.' ? false : true;
             }
         }
-
-
         return parsedTextFile;
     }
 

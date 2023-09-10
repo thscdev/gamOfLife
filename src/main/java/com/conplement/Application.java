@@ -4,8 +4,6 @@ package com.conplement;
 import com.conplement.gameOfLife.GameOfLife;
 import com.conplement.gameOfLife.Renderer;
 import com.conplement.io.Io;
-import com.conplement.renderer.ClassicConsoleRender;
-import com.conplement.renderer.EmojiConsoleRender;
 
 public class Application {
 
@@ -16,15 +14,6 @@ public class Application {
         Renderer choosenRenderer;
         int tickRate;
         var io = new Io();
-
-        /*
-        for(int x = 0; x < parsedTextFile.length; x++){
-            for(int y = 0; y < parsedTextFile[0].length; y++) {
-                System.out.print(parsedTextFile[x][y]);
-                System.out.print(",");
-            }
-            System.out.println();
-        } */
 
         while(true){
             String choosenPattern = io.printMenuChoosePattern();

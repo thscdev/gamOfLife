@@ -1,6 +1,5 @@
 package com.conplement.gameOfLife;
 
-import com.conplement.renderer.ClassicConsoleRender;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;

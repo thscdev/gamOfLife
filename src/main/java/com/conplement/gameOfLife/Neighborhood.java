@@ -2,9 +2,9 @@ package com.conplement.gameOfLife;
 
 public class Neighborhood {
 
-    int x;
-    int y;
-    Board board;
+    private int x;
+    private int y;
+    private Board board;
     public Neighborhood(int coordinateX, int coordinateY, Board board){
         this.x = coordinateX;
         this.y = coordinateY;

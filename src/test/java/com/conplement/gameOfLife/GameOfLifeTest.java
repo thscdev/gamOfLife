@@ -93,4 +93,15 @@ class GameOfLifeTest {
         assertFalse(Arrays.equals(blinker, board.getBooleanCellStatusArray()));
     }
 
+    @Test
+    void givenBlinker_ExpectFalseAfterThreeRuns(){
+        Board board = Board.newBoardForBooleanPattern(blinker);
+
+        board = board.calcNextBoard();
+        board = board.calcNextBoard();
+        board = board.calcNextBoard();
+
+        assertFalse(Arrays.equals(blinker, board.getBooleanCellStatusArray()));
+    }
+
 }

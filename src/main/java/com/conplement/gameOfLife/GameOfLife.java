@@ -1,28 +1,26 @@
 package com.conplement.gameOfLife;
 
-import com.conplement.io.Io;
-
 public class GameOfLife {
 
     private final int tickRate;
     private Board currentBoard;
     private int generationCounter = 0;
     private Renderer renderer;
+    private boolean isBoardWrapping;
 
-    public GameOfLife(boolean[][] initialBoard, int tickRate, Renderer renderer) {
-        this.currentBoard = Board.newBoardForBooleanPattern(initialBoard);
-        this.tickRate = 1000/ tickRate ;
+    public GameOfLife(InputReader inputReader, Renderer renderer) {
+        this.currentBoard = inputReader.wantRandomFilledBoard() ? Board.newSizedBoardWithRandomCells(inputReader.widthForRandomBoard(),inputReader.heightForRandomBoard()) : Board.newBoardForBooleanPattern(inputReader.getBooleanPattern());
+        this.tickRate = 1000/ inputReader.getTickRate() ;
         this.renderer = renderer;
+        this.isBoardWrapping =  inputReader.isBoardWrapping();
     }
 
-    public static GameOfLife randomGameOfLife(int tickRate, Renderer renderer){
-        return new GameOfLife(Board.newSizedBoardWithRandomCells(20,20).getBooleanCellStatusArray(),tickRate, renderer);
-    }
 
     public void start() throws InterruptedException {
         while(true){
             renderer.render(currentBoard, generationCounter);
-            currentBoard= currentBoard.calcNextBoard();
+            System.out.println(isBoardWrapping);
+            currentBoard= isBoardWrapping ? currentBoard.calcNextWrappingBoard() : currentBoard.calcNextBoard();
             generationCounter++;
             Thread.sleep(tickRate);
         }

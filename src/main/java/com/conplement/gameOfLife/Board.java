@@ -48,11 +48,32 @@ public class Board {
     }
 
     public Board calcNextBoard(){
+        /*
+        Cell[][] newCellBoard = new Cell[board.length][board[0].length];
+
+        for(int x = 0; x < board.length; x++){
+            for(int y = 0; y < board[0].length; y++) {
+                newCellBoard[x][y] = board[x][y].calculateNextCellStatus();
+            }
+        }
+        return new Board(newCellBoard) ;
+         */
         boolean[][] newBoard = new boolean[board.length][board[0].length];
 
         for(int x = 0; x < board.length; x++){
             for(int y = 0; y < board[0].length; y++) {
                 newBoard[x][y] = board[x][y].calculateNextCellStatus().isAlive();
+            }
+        }
+        return new Board(newBoard) ;
+    }
+
+    public Board calcNextWrappingBoard(){
+        boolean[][] newBoard = new boolean[board.length][board[0].length];
+
+        for(int x = 0; x < board.length; x++){
+            for(int y = 0; y < board[0].length; y++) {
+                newBoard[x][y] = board[x][y].calculateNextCellStatusWrappingBoard().isAlive();
             }
         }
         return new Board(newBoard) ;

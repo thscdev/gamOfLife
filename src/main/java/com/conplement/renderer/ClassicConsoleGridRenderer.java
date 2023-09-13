@@ -15,6 +15,13 @@ public class ClassicConsoleGridRenderer implements Renderer {
         System.out.println("Generation: " +  generationCounter);
         for(int x = 0; x < dimensionX; x++) {
             for(int y = 0; y < dimensionY; y++) {
+                /*
+                if(y== 0 && x == 0){
+                    System.out.print("┌");
+                    printHorizontalLine(dimensionX*2-1);
+                    System.out.print("┐");
+                }
+                */
                 if(y == 0){
                     printHorizontalLine(dimensionY*2+1);
                     System.out.println();

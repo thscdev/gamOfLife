@@ -30,7 +30,7 @@ public class Cell {
         int aliveNeighbors = hood.countAliveNeighbors();
 
         if (!isAlive && aliveNeighbors == 3) {
-            return Cell.newLivingCell(hood);
+            return Cell.newLivingCell(hood); //Fehler
         }
 
         if (isAlive && (aliveNeighbors < 2 || aliveNeighbors > 3)) {
@@ -38,5 +38,19 @@ public class Cell {
         }
 
         return this;    //Gute idee? Oder besser neue Celle mit diesem Status?
+    }
+
+    public Cell calculateNextCellStatusWrappingBoard(){
+        int aliveNeighbors = hood.countAliveNeighborsWrappingBoard();
+
+        if (!isAlive && aliveNeighbors == 3) {
+            return Cell.newLivingCell(hood);
+        }
+
+        if (isAlive && (aliveNeighbors < 2 || aliveNeighbors > 3)) {
+            return newDeadCell(hood);
+        }
+
+        return this;
     }
 }

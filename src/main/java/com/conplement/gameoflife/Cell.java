@@ -1,17 +1,26 @@
-package com.conplement.gameOfLife;
+package com.conplement.gameoflife;
+
+import com.conplement.gameoflife.neighbourhood.Neighbourhood;
 
 public class Cell {
 
     private boolean isAlive;
-    private Neighborhood hood;
+    private Neighborhood hood = null;
+
+    //NEU
+    private Neighbourhood hOOd = null;
 
     private Cell(boolean isAlive, Neighborhood hood){
         this.isAlive = isAlive;
-        this.hood = hood;
+        //this.hood = hood;
     }
 
     public static Cell newLivingCell(Neighborhood neighborhood) {
         return new Cell(true, neighborhood);
+    }
+
+    public void attachNeighbourhood(Neighbourhood hood) {
+        this.hOOd = hood;
     }
 
     public static Cell newDeadCell(Neighborhood neighborhood) {

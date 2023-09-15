@@ -1,7 +1,7 @@
 package com.conplement.inputReader;
 
-import com.conplement.gameOfLife.InputReader;
-import com.conplement.gameOfLife.Renderer;
+import com.conplement.gameoflife.Options;
+import com.conplement.gameoflife.Renderer;
 import com.conplement.renderer.ClassicConsoleGridRenderer;
 import com.conplement.renderer.ClassicConsoleRenderer;
 import com.conplement.renderer.EmojiConsoleRenderer;
@@ -11,26 +11,26 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
 import java.util.Scanner;
 
-public class FileReaderWithMenu implements InputReader {
+public class FileReaderWithMenu {
     private boolean wantRandomFilledBoard;
     private boolean isBoardWrapping;
     private int width = 10;
     private int height = 10;
     private int tickRate;
     private boolean[][] inputBoard;
-    private Renderer choosenRenderer;
+    private Renderer renderer;
 
-    private FileReaderWithMenu(int tickRate, boolean[][] inputBoard, Renderer choosenRenderer, int width, int height, boolean wantRandomFilledBoard, boolean isBoardWrapping) {
+    private FileReaderWithMenu(int tickRate, boolean[][] inputBoard, Renderer renderer, int height, int width, boolean wantRandomFilledBoard, boolean isBoardWrapping) {
         this.tickRate = tickRate;
         this.inputBoard = inputBoard;
-        this.choosenRenderer = choosenRenderer;
+        this.renderer = renderer;
         this.width = height;
         this.height = width;
         this.wantRandomFilledBoard = wantRandomFilledBoard;
         this.isBoardWrapping = isBoardWrapping;
     }
 
-    public static FileReaderWithMenu startFileReader() {
+    public static Options startReadFromConsole() {
         String path;
         int readTickRate;
         int height;
@@ -51,7 +51,7 @@ public class FileReaderWithMenu implements InputReader {
         }
 
 
-        isWrapping = printMenuIsBoardWrapping();
+        isWrapping = askForWrapping();
 
         while (true) {
             readTickRate = printMenuChooseTickRate();
@@ -63,7 +63,7 @@ public class FileReaderWithMenu implements InputReader {
 
         Renderer choosenRenderer = printMenuChooseRenderer();
 
-        if (path == "random") {
+        if ("random".equals(path)) {
             width = askBoardWidth();
             height = askBoardHeight();
             return new FileReaderWithMenu(readTickRate, new boolean[0][], choosenRenderer, width, height, true, isWrapping);
@@ -71,11 +71,12 @@ public class FileReaderWithMenu implements InputReader {
 
 
         parsedTextFile = readTextFilePattern(path);
-        return new FileReaderWithMenu(readTickRate, parsedTextFile, choosenRenderer, 0, 0, false, isWrapping);
+        //return new FileReaderWithMenu(readTickRate, parsedTextFile, choosenRenderer, 0, 0, false, isWrapping);
+        return new Options(parsedTextFile, false, isWrapping, readTickRate, 0, 0);
     }
 
-    public Renderer getChoosenRenderer() {
-        return choosenRenderer;
+    public Renderer getRenderer() {
+        return renderer;
     }
 
     @Override
@@ -131,9 +132,9 @@ public class FileReaderWithMenu implements InputReader {
 
         boolean[][] parsedTextFile = new boolean[splittetFile.length][splittetFile[0].length()];
 
-        for (int x = 0; x < parsedTextFile.length; x++) {
-            for (int y = 0; y < parsedTextFile[0].length; y++) {
-                parsedTextFile[x][y] = splittetFile[x].charAt(y) == '.' ? false : true;
+        for (int y = 0; y < parsedTextFile.length; y++) {
+            for (int x = 0; x < parsedTextFile[0].length; x++) {
+                parsedTextFile[y][x] = splittetFile[y].charAt(x) == '.' ? false : true;
             }
         }
         return parsedTextFile;
@@ -170,26 +171,27 @@ public class FileReaderWithMenu implements InputReader {
             case 9 -> "patterns/heavy-spaceship.txt";
             case 10 -> "patterns/empty-in-54.txt";
             case 11 -> "patterns/f-pentomino.txt";
+            case 12 -> "patterns/border-blinker.txt";
+            case 13 -> "patterns/glider.txt";
+            case 99 -> "patterns/test.txt";
             default -> "error";
         });
     }
 
     private static int printMenuChooseTickRate() {
-        System.out.println("Bitte wähle eine Tickrate (Darstellungen pro Sekunde) mit einer ganzen positiven Zahl:");
-
-        Scanner scanner = new Scanner(System.in);
-        return scanner.nextInt();
+        return askForInt("Bitte wähle eine Tickrate (Darstellungen pro Sekunde) mit einer ganzen positiven Zahl:");
     }
 
     //Abhängigkeit vermeiden (Renderer)?
     private static Renderer printMenuChooseRenderer() {
-        System.out.println("Bitte wähle einen der folgenden Renderer(wähle die Zahl und drücke Enter):");
-        System.out.println("1. ClassicConsoleRender");
-        System.out.println("2. EmojiRender");
-        System.out.println("3. ClassicConsoleGridRender (unterstützt max 100x27)");
+        int choosenRenderer = askForInt("""
+                Bitte wähle einen der folgenden Renderer(wähle die Zahl und drücke Enter):
+                1. ClassicConsoleRender
+                2. EmojiRender
+                3. ClassicConsoleGridRender (unterstützt max 100x27)
+                """);
 
         Scanner scanner = new Scanner(System.in);
-        int choosenRenderer = scanner.nextInt();
 
         return (switch (choosenRenderer) {
             case 1 -> new ClassicConsoleRenderer();
@@ -200,25 +202,20 @@ public class FileReaderWithMenu implements InputReader {
     }
 
     private static int askBoardWidth() {
-        System.out.println("Wie viele Zellen breit soll das Board sein?");
+        return askForInt("Wie viele Zellen breit soll die Generation sein?");
+    }
+
+    private static int askForInt(String question) {
+        System.out.println(question);
         Scanner scanner = new Scanner(System.in);
         return scanner.nextInt();
     }
 
     private static int askBoardHeight() {
-        System.out.println("Wie viele Zellen hoch soll das Board sein?");
-        Scanner scanner = new Scanner(System.in);
-        return scanner.nextInt();
+        return askForInt("Wie viele Zellen hoch soll die Generation sein?");
     }
 
-    private static boolean printMenuIsBoardWrapping() {
-        System.out.println("Soll das Board gewrapped werden? Gib die Zahl 1 für JA ein oder die Zahl 2 für NEIN. Bestätige mit Enter");
-        Scanner scanner = new Scanner(System.in);
-
-        int input = scanner.nextInt();
-        System.out.println(input);
-        boolean result = input == 1 ? true : false;
-        System.out.println(result);
-        return result;
+    private static boolean askForWrapping() {
+        return askForInt("Soll das Generation gewrapped werden? Gib die Zahl 1 für JA ein oder eine andere Zahl für NEIN. Bestätige mit Enter") == 1;
     }
 }

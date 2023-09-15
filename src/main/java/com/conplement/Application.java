@@ -1,7 +1,7 @@
 package com.conplement;
 
 
-import com.conplement.gameOfLife.GameOfLife;
+import com.conplement.gameoflife.GameOfLife;
 import com.conplement.inputReader.FileReaderWithMenu;
 
 public class Application {

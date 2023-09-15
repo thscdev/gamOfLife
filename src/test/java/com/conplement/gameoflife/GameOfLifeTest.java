@@ -1,5 +1,6 @@
-package com.conplement.gameOfLife;
+package com.conplement.gameoflife;
 
+import com.conplement.gameoflife.generation.OldGeneration;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -73,7 +74,7 @@ class GameOfLifeTest {
     @Test
     void givenBlinker_expectBlinkerResult() {
 
-        var board = Generation.newBoardForBooleanPattern(blinker);
+        var board = OldGeneration.newBoardForBooleanPattern(blinker);
 
         var nextBoard = board.calcNextBoard(false);
 
@@ -82,7 +83,7 @@ class GameOfLifeTest {
 
     @Test
     void givenClock_expectClockResult() {
-        var board = Generation.newBoardForBooleanPattern(clock);
+        var board = OldGeneration.newBoardForBooleanPattern(clock);
 
         var nextBoard = board.calcNextBoard(false);
 
@@ -91,7 +92,7 @@ class GameOfLifeTest {
 
     @Test
     void givenToad_expectToadResultAfter3Generations() {
-        var board = Generation.newBoardForBooleanPattern(toad);
+        var board = OldGeneration.newBoardForBooleanPattern(toad);
 
         var nextBoard = board.calcNextBoard(false);
         nextBoard = nextBoard.calcNextBoard(false);
@@ -102,7 +103,7 @@ class GameOfLifeTest {
 
     @Test
     void givenBlinker_ExpectFalseAfterOneRun() {
-        var board = Generation.newBoardForBooleanPattern(blinker);
+        var board = OldGeneration.newBoardForBooleanPattern(blinker);
 
         board = board.calcNextBoard(false);
 
@@ -111,7 +112,7 @@ class GameOfLifeTest {
 
     @Test
     void givenBlinker_ExpectFalseAfterThreeRuns(){
-        var board = Generation.newBoardForBooleanPattern(blinker);
+        var board = OldGeneration.newBoardForBooleanPattern(blinker);
 
         board = board.calcNextBoard(false);
         board = board.calcNextBoard(false);
@@ -122,9 +123,9 @@ class GameOfLifeTest {
 
     @Test
     void givenBorderBlinker_ExpectBorderBlinkerResultWithWrapping(){
-        Generation generation = Generation.newBoardForBooleanPattern(borderBlinker);
+        OldGeneration oldGeneration = OldGeneration.newBoardForBooleanPattern(borderBlinker);
 
-        var resultBoard = generation.calcNextBoard(true);
+        var resultBoard = oldGeneration.calcNextBoard(true);
 
         assertArrayEquals(borderBlinkerresult,  resultBoard.getBooleanCellStatusArray());
     }

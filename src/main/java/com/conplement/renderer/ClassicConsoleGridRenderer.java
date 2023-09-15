@@ -1,38 +1,38 @@
 package com.conplement.renderer;
 
-import com.conplement.gameOfLife.Board;
-import com.conplement.gameOfLife.Renderer;
+import com.conplement.gameoflife.generation.OldGeneration;
+import com.conplement.gameoflife.Renderer;
 
 public class ClassicConsoleGridRenderer implements Renderer {
 
-    public void render(Board board, int generationCounter){
+    public void render(OldGeneration oldGeneration, int generationCounter){
 
-        var dimensionX = board.getBoardXlength() > 27 ? 27 : board.getBoardXlength();
-        var dimensionY = board.getBoardXlength() > 100 ? 100 : board.getBoardYlength();
+        var dimensionY = oldGeneration.getBoardYlength() > 27 ? 27 : oldGeneration.getBoardYlength();
+        var dimensionX = oldGeneration.getBoardXlength() > 100 ? 100 : oldGeneration.getBoardXlength();
 
         System.out.print("\033[H\033[2J");
         System.out.flush();
         System.out.println("Generation: " +  generationCounter);
-        for(int x = 0; x < dimensionX; x++) {
-            for(int y = 0; y < dimensionY; y++) {
+        for(int y = 0; y < dimensionY; y++) {
+            for(int x = 0; x < dimensionX; x++) {
                 /*
-                if(y== 0 && x == 0){
+                if(y== 0 && y == 0){
                     System.out.print("┌");
                     printHorizontalLine(dimensionX*2-1);
                     System.out.print("┐");
                 }
                 */
-                if(y == 0){
-                    printHorizontalLine(dimensionY*2+1);
+                if(x == 0){
+                    printHorizontalLine(dimensionX*2+1);
                     System.out.println();
                     System.out.print("|");
                 }
-                System.out.print(board.getBooleanCellStatusArray()[x][y] == false ? " " : "#");
+                System.out.print(oldGeneration.getBooleanCellStatusArray()[y][x] == false ? " " : "#");
                 System.out.print("|");
             }
             System.out.println();
-            if(x == dimensionX-1){
-                printHorizontalLine(dimensionY*2+1);
+            if(y == dimensionY-1){
+                printHorizontalLine(dimensionX*2+1);
             }
         }
     }

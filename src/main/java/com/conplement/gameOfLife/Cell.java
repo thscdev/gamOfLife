@@ -19,18 +19,18 @@ public class Cell {
     }
 
     public static Cell newRandomCell(Neighborhood neighborhood){
-        return new Cell(Math.random() > 0.5 ? true : false, neighborhood);
+        return new Cell(Math.random() > 0.5, neighborhood);
     }
 
     public boolean isAlive() {
         return isAlive;
     }
 
-    public Cell calculateNextCellStatus (){
-        int aliveNeighbors = hood.countAliveNeighbors();
+    public Cell calculateNextCellStatus (boolean isWrapping){
+        int aliveNeighbors = hood.countAliveNeighbors(isWrapping);
 
         if (!isAlive && aliveNeighbors == 3) {
-            return Cell.newLivingCell(hood);
+            return Cell.newLivingCell(hood); //Fehler
         }
 
         if (isAlive && (aliveNeighbors < 2 || aliveNeighbors > 3)) {

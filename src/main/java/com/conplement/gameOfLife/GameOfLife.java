@@ -1,35 +1,28 @@
 package com.conplement.gameOfLife;
 
-import com.conplement.io.Io;
-
 public class GameOfLife {
 
     private final int tickRate;
-    // private final int dimensionX;
-    // private final int dimensionY;
     private Board currentBoard;
     private int generationCounter = 0;
+    private Renderer renderer;
+    private boolean isBoardWrapping;
 
-    public GameOfLife(boolean[][] INITIAL_GENERATION, int tickRate) {   //old constructor
-        this.currentBoard = Board.newBoardForBooleanPattern(INITIAL_GENERATION);
-        this.tickRate = 1000/ tickRate ;
+    public GameOfLife(InputReader inputReader, Renderer renderer) {
+        this.currentBoard = inputReader.wantRandomFilledBoard() ? Board.newSizedBoardWithRandomCells(inputReader.widthForRandomBoard(),inputReader.heightForRandomBoard()) : Board.newBoardForBooleanPattern(inputReader.getBooleanPattern());
+        this.tickRate = 1000/ inputReader.getTickRate() ;
+        this.renderer = renderer;
+        this.isBoardWrapping =  inputReader.isBoardWrapping();
     }
 
-    public int numberOfGeneration(){
-        return generationCounter;
-    }
 
-
-    public void calcNextGeneration(){
-        currentBoard = currentBoard.calcNextBoard();
-        generationCounter++;
-    }
-
-    public int getTickrate () {
-        return tickRate;
-    }
-
-    public boolean[][] getCurrentGenAsBooleanArray(){
-        return currentBoard.getBooleanCellStatusArray();
+    public void start() throws InterruptedException {
+        while(true){
+            renderer.render(currentBoard, generationCounter);
+            System.out.println(isBoardWrapping);
+            currentBoard= isBoardWrapping ? currentBoard.calcNextWrappingBoard() : currentBoard.calcNextBoard();
+            generationCounter++;
+            Thread.sleep(tickRate);
+        }
     }
 }

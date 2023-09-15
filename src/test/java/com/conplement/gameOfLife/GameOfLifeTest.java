@@ -2,9 +2,13 @@ package com.conplement.gameOfLife;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class GameOfLifeTest {
+
+
 
     private final boolean[][] blinker = new boolean[][]{
             {false, false, false, false, false},
@@ -50,24 +54,79 @@ class GameOfLifeTest {
             {false, false, true, false}
     };
 
+    private final boolean[][] borderBlinker = new boolean[][] {
+            {false, false, false, false, false},
+            {false, false, false, false, true},
+            {false, false, false, false, true},
+            {false, false, false, false, true},
+            {false, false, false, false, false}
+    };
+
+    private final boolean[][] borderBlinkerresult = new boolean[][] {
+            {false, false, false, false, false},
+            {false, false, false, false, false},
+            {true, false, false, true, true},
+            {false, false, false, false, false},
+            {false, false, false, false, false}
+    };
+
     @Test
     void givenBlinker_expectBlinkerResult() {
-        var game = new GameOfLife(blinker, 1);
-        game.calcNextGeneration();
-        assertArrayEquals(blinkerResult, game.getCurrentGenAsBooleanArray() );
+
+        var board = Generation.newBoardForBooleanPattern(blinker);
+
+        var nextBoard = board.calcNextBoard(false);
+
+        assertArrayEquals(blinkerResult, nextBoard.getBooleanCellStatusArray());
     }
 
     @Test
     void givenClock_expectClockResult() {
-        var game = new GameOfLife(clock, 1);
-        game.calcNextGeneration();
-        assertArrayEquals(clockResult, game.getCurrentGenAsBooleanArray() );
+        var board = Generation.newBoardForBooleanPattern(clock);
+
+        var nextBoard = board.calcNextBoard(false);
+
+        assertArrayEquals(clockResult, nextBoard.getBooleanCellStatusArray());
     }
 
     @Test
-    void givenToad_expectToadResult() {
-        var game = new GameOfLife(toad, 1);
-        game.calcNextGeneration();
-        assertArrayEquals(toadResult, game.getCurrentGenAsBooleanArray() );
+    void givenToad_expectToadResultAfter3Generations() {
+        var board = Generation.newBoardForBooleanPattern(toad);
+
+        var nextBoard = board.calcNextBoard(false);
+        nextBoard = nextBoard.calcNextBoard(false);
+        nextBoard = board.calcNextBoard(false);
+
+        assertArrayEquals(toadResult, nextBoard.getBooleanCellStatusArray());
     }
+
+    @Test
+    void givenBlinker_ExpectFalseAfterOneRun() {
+        var board = Generation.newBoardForBooleanPattern(blinker);
+
+        board = board.calcNextBoard(false);
+
+        assertFalse(Arrays.equals(blinker, board.getBooleanCellStatusArray()));
+    }
+
+    @Test
+    void givenBlinker_ExpectFalseAfterThreeRuns(){
+        var board = Generation.newBoardForBooleanPattern(blinker);
+
+        board = board.calcNextBoard(false);
+        board = board.calcNextBoard(false);
+        board = board.calcNextBoard(false);
+
+        assertFalse(Arrays.equals(blinker, board.getBooleanCellStatusArray()));
+    }
+
+    @Test
+    void givenBorderBlinker_ExpectBorderBlinkerResultWithWrapping(){
+        Generation generation = Generation.newBoardForBooleanPattern(borderBlinker);
+
+        var resultBoard = generation.calcNextBoard(true);
+
+        assertArrayEquals(borderBlinkerresult,  resultBoard.getBooleanCellStatusArray());
+    }
+
 }

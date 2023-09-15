@@ -152,6 +152,8 @@ public class FileReaderWithMenu implements InputReader {
         System.out.println("9. heavy spaceship");
         System.out.println("10. empty in 54 Generations");
         System.out.println("11. f-pentomino explosion");
+        System.out.println("12. BorderBlinker");
+        System.out.println("13. glider");
 
         Scanner scanner = new Scanner(System.in);
         int userChoose = scanner.nextInt();

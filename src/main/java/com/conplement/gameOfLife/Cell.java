@@ -19,15 +19,15 @@ public class Cell {
     }
 
     public static Cell newRandomCell(Neighborhood neighborhood){
-        return new Cell(Math.random() > 0.5 ? true : false, neighborhood);
+        return new Cell(Math.random() > 0.5, neighborhood);
     }
 
     public boolean isAlive() {
         return isAlive;
     }
 
-    public Cell calculateNextCellStatus (){
-        int aliveNeighbors = hood.countAliveNeighbors();
+    public Cell calculateNextCellStatus (boolean isWrapping){
+        int aliveNeighbors = hood.countAliveNeighbors(isWrapping);
 
         if (!isAlive && aliveNeighbors == 3) {
             return Cell.newLivingCell(hood); //Fehler
@@ -38,19 +38,5 @@ public class Cell {
         }
 
         return this;    //Gute idee? Oder besser neue Celle mit diesem Status?
-    }
-
-    public Cell calculateNextCellStatusWrappingBoard(){
-        int aliveNeighbors = hood.countAliveNeighborsWrappingBoard();
-
-        if (!isAlive && aliveNeighbors == 3) {
-            return Cell.newLivingCell(hood);
-        }
-
-        if (isAlive && (aliveNeighbors < 2 || aliveNeighbors > 3)) {
-            return newDeadCell(hood);
-        }
-
-        return this;
     }
 }

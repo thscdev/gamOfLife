@@ -54,54 +54,79 @@ class GameOfLifeTest {
             {false, false, true, false}
     };
 
+    private final boolean[][] borderBlinker = new boolean[][] {
+            {false, false, false, false, false},
+            {false, false, false, false, true},
+            {false, false, false, false, true},
+            {false, false, false, false, true},
+            {false, false, false, false, false}
+    };
+
+    private final boolean[][] borderBlinkerresult = new boolean[][] {
+            {false, false, false, false, false},
+            {false, false, false, false, false},
+            {true, false, false, true, true},
+            {false, false, false, false, false},
+            {false, false, false, false, false}
+    };
+
     @Test
     void givenBlinker_expectBlinkerResult() {
 
-        Board board = Board.newBoardForBooleanPattern(blinker);
+        var board = Generation.newBoardForBooleanPattern(blinker);
 
-        Board nextBoard = board.calcNextBoard();
+        var nextBoard = board.calcNextBoard(false);
 
         assertArrayEquals(blinkerResult, nextBoard.getBooleanCellStatusArray());
     }
 
     @Test
     void givenClock_expectClockResult() {
-        Board board = Board.newBoardForBooleanPattern(clock);
+        var board = Generation.newBoardForBooleanPattern(clock);
 
-        Board nextBoard = board.calcNextBoard();
+        var nextBoard = board.calcNextBoard(false);
 
         assertArrayEquals(clockResult, nextBoard.getBooleanCellStatusArray());
     }
 
     @Test
     void givenToad_expectToadResultAfter3Generations() {
-        Board board = Board.newBoardForBooleanPattern(toad);
+        var board = Generation.newBoardForBooleanPattern(toad);
 
-        Board nextBoard = board.calcNextBoard();
-        nextBoard = nextBoard.calcNextBoard();
-        nextBoard = board.calcNextBoard();
+        var nextBoard = board.calcNextBoard(false);
+        nextBoard = nextBoard.calcNextBoard(false);
+        nextBoard = board.calcNextBoard(false);
 
         assertArrayEquals(toadResult, nextBoard.getBooleanCellStatusArray());
     }
 
     @Test
     void givenBlinker_ExpectFalseAfterOneRun() {
-        Board board = Board.newBoardForBooleanPattern(blinker);
+        var board = Generation.newBoardForBooleanPattern(blinker);
 
-        board = board.calcNextBoard();
+        board = board.calcNextBoard(false);
 
         assertFalse(Arrays.equals(blinker, board.getBooleanCellStatusArray()));
     }
 
     @Test
     void givenBlinker_ExpectFalseAfterThreeRuns(){
-        Board board = Board.newBoardForBooleanPattern(blinker);
+        var board = Generation.newBoardForBooleanPattern(blinker);
 
-        board = board.calcNextBoard();
-        board = board.calcNextBoard();
-        board = board.calcNextBoard();
+        board = board.calcNextBoard(false);
+        board = board.calcNextBoard(false);
+        board = board.calcNextBoard(false);
 
         assertFalse(Arrays.equals(blinker, board.getBooleanCellStatusArray()));
+    }
+
+    @Test
+    void givenBorderBlinker_ExpectBorderBlinkerResultWithWrapping(){
+        Generation generation = Generation.newBoardForBooleanPattern(borderBlinker);
+
+        var resultBoard = generation.calcNextBoard(true);
+
+        assertArrayEquals(borderBlinkerresult,  resultBoard.getBooleanCellStatusArray());
     }
 
 }
